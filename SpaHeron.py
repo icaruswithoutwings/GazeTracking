@@ -19,21 +19,26 @@ def Video_to_Image(videoPath, imagePath):
         count = 0
 
         print("Now File: {file}".format(file=file))
-        while True:
-            ret, image = cap.read()
-            if not ret:
-                break
-            file_name = file.split(".")[0]
-            if int(cap.get(1)) % 60 == 0:
-                cv2.imwrite(
-                    imagePath + file_name + "/frame{num}.jpg".format(num=count), image
-                )
-                print(imagePath + file_name + "/frame{num}.jpg".format(num=count))
-                # print("[O] frame{num}.jpg".format(num=count))
-                count += 1
+        if cap.isOpened():
+            while True:
+                ret, image = cap.read()
+                if not ret:
+                    break
+                file_name = file.split(".")[0]
+                if os.path.isdir(imagePath + file_name) == False:
+                    os.mkdir(imagePath + file_name)
+                if int(cap.get(1)) % 60 == 0:
+                    cv2.imwrite(
+                        imagePath + file_name + "\\frame{num}.jpg".format(num=count),
+                        image,
+                    )
+                    print(imagePath + file_name + "\\frame{num}.jpg".format(num=count))
+                    count += 1
+        else:
+            print("Video connot open.")
 
         cap.release()
 
 
 if __name__ == "__main__":
-    Video_to_Image("./Source/", "./Images/")
+    Video_to_Image(".\\Source\\", ".\\Images\\")
