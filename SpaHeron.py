@@ -27,7 +27,8 @@ def Video_to_Image(videoPath, imagePath):
                 file_name = file.split(".")[0]
                 if os.path.isdir(imagePath + file_name) == False:
                     os.mkdir(imagePath + file_name)
-                if int(cap.get(1)) % 60 == 0:
+                fps = int(cap.get(cv2.CAP_PROP_FPS))
+                if int(cap.get(1)) % fps == 0:
                     cv2.imwrite(
                         imagePath + file_name + "\\frame{num}.jpg".format(num=count),
                         image,
